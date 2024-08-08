@@ -35,14 +35,25 @@ $($tweetDiv).css( 'width', '50%')
 ///////////////////////////////
 
 //TITLE
-let $title = $("<div><h1 id='site-title' style='display:none'>TWIDDLER<img id='dump' src='https://www.snipershide.com/shooting/attachments/giphy-gif.7617343/' height='50'/></h1><div>")
+let $title = $("<div><h1 class='site-title' style='display:none'>TWIDDLER<img id='dump' src='https://www.snipershide.com/shooting/attachments/giphy-gif.7617343/' height='25'/></h1><div><h3 class='site-title' style='display:none'>oy vey</h3>")
 
 
 $body.prepend($title);
-$('#site-title').fadeIn(3000)
-$title.css('color', 'red')
+$title.css('position', 'relative')
 $title.css('text-align', 'center')
 $title.css('font-family', 'cursive')
+$title.css('margin', '0px')
+
+$('h3').delay(1000)
+$('.site-title').fadeIn(3000)
+
+$title.css('color', 'red')
+
+$("h3").css('margin', '4px')
+$("h3").css('position', 'absolute')
+$("h3").css('top', '66%')
+$("h3").css('left', '48%')
+
 
 
 
@@ -71,9 +82,14 @@ $title.css('font-family', 'cursive')
 
 ///////////////////////////
 
+//OTHER PEOPLE
+
 console.log("STREAMS", streams)
+
 console.log("USERS", users)
 
+
+users.forEach(user => console.log(user));
 
 
 
@@ -86,7 +102,7 @@ console.log("USERS", users)
 //////////////////////////////
 //add more tweets
 
-  $body.append('<div id="tb-div"><div></div><button id="tweet-butt">more tweets!</button></div>')
+  $body.append('<div id="tb-div"><div id="top-butt-spacer"></div><button id="tweet-butt">more tweets!</button></div>')
 
 
 
@@ -135,6 +151,8 @@ console.log("USERS", users)
   
   console.log("TWEETER FORM:", $tweeter)
 
+  
+
   $('#tweeter').css( 'padding', '12px 20px');
   $('#tweeter').css( 'margin', '8px 0');
   $('#tweeter').css( 'width', '33%');
@@ -150,7 +168,10 @@ console.log("USERS", users)
 
   $('#tb-div').prepend($("<div class='butt-spacer'></div>"))
 
+$("#top-butt-spacer").css('margin-top', '15%')
+
   $('.butt-spacer').css('height', '4px')
+  
 
   $('#deliver').css
   $('#deliver').css
