@@ -15,12 +15,18 @@ const streams = {
 };
 const users = Object.keys(streams.users);
 
+//!!
+console.log(users);
+
 // Utility function for adding tweets to our data structures
 const addTweet = (newTweet) => {
   const username = newTweet.user;
   streams.users[username].push(newTweet);
   streams.home.push(newTweet);
 };
+
+//!!
+console.log("streams", streams.home)
 
 // Utility function
 const randomElement = (array) => {
