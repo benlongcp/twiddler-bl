@@ -10,10 +10,10 @@ $(document).ready(() => {
 
 $($body).css('background-color', '#ffccff')
 // 
-$body.append("<div id='tweet-div'></div>")
+$body.append("<div id='title-spacer'></div><div id='tweet-div'></div>")
 
 let $tweetDiv = $('#tweet-div');
-console.log("TWEET CONTENTS:", $tweetDiv)
+// console.log("TWEET CONTENTS:", $tweetDiv)
 
 $($tweetDiv).css( 'background-color', '#F5F5F5')
 $($tweetDiv).css( 'border', '1px solid #DDDDDD')
@@ -27,7 +27,7 @@ $($tweetDiv).css( 'height', '200px')
 $($tweetDiv).css( 'overflow', 'scroll');
 $($tweetDiv).css( 'padding', '25px 25px 25px 25px');
 $($tweetDiv).css( 'margin', 'auto')
-$($tweetDiv).css( 'width', '50%')
+$($tweetDiv).css( 'width', '500px')
 
 
 
@@ -35,7 +35,7 @@ $($tweetDiv).css( 'width', '50%')
 ///////////////////////////////
 
 //TITLE
-let $title = $("<div><h1 class='site-title' style='display:none'>TWIDDLER<img id='dump' src='https://www.snipershide.com/shooting/attachments/giphy-gif.7617343/' height='25'/></h1><div><h3 class='site-title' style='display:none'>oy vey</h3>")
+let $title = $("<div><h1 class='site-title' style='display:none'>TWIDDLER<img id='dump' src='https://www.snipershide.com/shooting/attachments/giphy-gif.7617343/' height='25'/></h1><h3 class='site-title' style='display:none'>oy vey</h3><div>")
 
 
 $body.prepend($title);
@@ -66,36 +66,201 @@ $("h3").css('left', '48%')
   function makeTweets(){
 
     const $tweets = streams.home.map((tweet) => {
-      const $tweet = $('<div></div>');
-      const text = `@${tweet.user}: ${tweet.message}`;
+      const $tweet = $('<div class="single-tweet"></div>');
 
-      $tweet.text(text);
+      // console.log("TU", tweet.user)
+      let $tweetUser = $("<div class='username'>" +"<h2 class='"+ tweet.user +"'> @"+ tweet.user + ":</h2>" + "</div>")
 
-      return $tweet.append("<div>", moment().calendar()).append(" - - - ", moment().format()).append("</div>").append('<div id="spacer"> - - - - - - </div>');
+      // console.log("$TU", $tweetUser)
+
+      $tweet.append($tweetUser)
+      $tweet.append("<div class='tweet-mess'>" + tweet.message +"</div>");
+
+      // console.log("$tweet", $tweet.text().split(": "))
+
+      // let splitTweet = $tweet.text().split(": ")
+
+      // let atUserName = splitTweet[0]
+
+      // console.log(atUserName)
+
+
+      return $tweet.append("<div id='time-spacer'></div><div>  - - -  ", moment().calendar()).append("  . . . . . . . .  ", moment().format()).append("</div>").append('<div id="spacer"></div>');
+
+
 
 
     });
 
     $tweetDiv.append($tweets).append("<div> </div>")
-  };
 
-
-///////////////////////////
-
-//OTHER PEOPLE
-
-console.log("STREAMS", streams)
-
-console.log("USERS", users)
-
-
-users.forEach(user => console.log(user));
+    $singleTweet = $('.single-tweet');
 
 
 
+//////////////////////////////////////////////////////////////////////////
+
+//DELIVER TWEET BUTTON
+
+$deliverButt = $("");
+$meTweet.append($deliverButt)
+// console.log("DELIVER BUTTON:", $deliverButt);
+
+
+$('#deliver').on('click',function(event){
+  event.preventDefault();
+  makeTweets()
+
+  const $inputString = $('#speak').val();
+
+  $('#tweet-div').append("<div class='single-tweet'><h2 class='username'>@YOU:  </h2>" + $inputString + "</div>")
+
+  .append(" - - - - - ")
+
+  .append(moment().calendar())
+
+  .append(" - - - ", moment().format());
+
+  $('.username').css('color', 'red');
+
+  $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
+
+  
+})
+
+//////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+
+
+  //GET OTHER PEOPLES' INFO
 
 
 
+  $userName = $('.username');
+  $('.username').css('color', 'red');
+
+  console.log("USERNAME:", $userName)
+
+///////////////////////
+
+
+
+
+
+
+
+
+  let currentUser
+  //CLICK ON USERNAME
+  $($userName).on('click', function(){
+    console.log(this, "click")
+
+  currentUser = this;
+
+  console.log("CURRENT", currentUser)
+
+
+    
+    $("#title-spacer").append('<div id="user-profile">')
+    $('#user-profile').prepend('<button id="close-butt">X</button>')
+    $('#tweet-div').hide()
+
+    $("#tweet-butt").prop(
+      "disabled",
+      true
+  );
+
+  $("#deliver").prop(
+    "disabled",
+
+    true
+);
+
+//CLOSE BUTTON STYLE
+    $("#close-butt").css( 'background-color', '#555555')
+    //  $("#close-butt").css( 'padding', '10px 10px')
+    $("#close-butt").css( 'font-size', '12px')
+    $("#close-butt").css( 'color', 'white')
+    $("#close-butt").css( 'border-radius', '4px')
+    $("#close-butt").css( 'font-family', 'cursive')
+    $("#close-butt").css( 'position', 'fixed')
+    $("#close-butt").css( 'top', '100px')
+    $("#close-butt").css( 'right', '67%')
+    $("#close-butt").css( 'transform', 'translate(-50%, -50%')
+     $("#close-butt").css( 'margin', 'auto')
+    //  $("#close-butt").css( 'width', '5%')
+    //  $("#close-butt").css( 'padding', '8px 8px 8px 8px')
+
+
+  //closes the profile window
+    $('#close-butt').on('click', function(){
+
+      $("#user-profile").remove();
+
+      $("#tweet-div").show();
+
+      $("#tweet-butt").prop(
+        "disabled",
+        false
+        );
+
+        $("#deliver").prop(
+          "disabled",
+          false
+      );
+
+    })
+
+    //USER PROFILE STYLING
+    // console.log("!!! User Profile !!!", $('#user-profile'))
+    $('#user-profile').css( 'background-color', '#F5F5F5')
+    $('#user-profile').css( 'border', '1px solid #DDDDDD')
+    $('#user-profile').css( 'border-radius', '4px 4px 4px 4px')
+    $('#user-profile').css( 'font-size', '12px')
+    $('#user-profile').css( 'font-weight', 'bold')
+    //  $('#user-profile').css( 'left', '-1px')
+    $('#user-profile').css( 'padding', '10px 7px 5px')
+    $('#user-profile').css( 'display', 'block')
+    $('#user-profile').css( 'height', '200px')
+    $('#user-profile').css( 'overflow', 'scroll');
+    $('#user-profile').css( 'padding', '25px 25px 25px 25px');
+    $('#user-profile').css( 'margin', 'auto')
+    $('#user-profile').css( 'width', '500px')
+
+
+    ////////////////////////////////////////////////////////
+    //USER TWEET HISTORY
+
+    console.log("TWEET HERE?", $(".single-tweet")[0].innerText);
+
+
+
+
+
+    // console.log("LENGTH !!!!!!!!!!!!!!!", $('.single-tweet').length)
+
+    for (let i = 0; i < $('.single-tweet').length; i++){
+
+      console.log("CURRENT", $('.username')[i].innerText.slice(2, -1) , currentUser.innerText.slice(2, -1))
+
+      // streams.home[i].user
+
+      if (currentUser.innerText.slice(2, -1) === $('.username')[i].innerText.slice(2, -1)){
+        console.log("SINGLE", $singleTweet)
+        $("#user-profile")
+        .append("<p>")
+        .append($(".single-tweet")[i].innerText)
+        .append("</p>")
+        .append("<div> - - - - - - </div>")
+      }
+
+    
+    }
+
+    $("#time-spacer").css("white-space", "pre-line")
+  })
+};
 
 
 
@@ -115,8 +280,8 @@ users.forEach(user => console.log(user));
   $($tweetButt).css( 'border-radius', '4px')
   $($tweetButt).css( 'font-family', 'cursive')
   $($tweetButt).css( 'position', 'relative')
-  $($tweetButt).css( 'margin', 'auto')
-  $($tweetButt).css( 'width', '50%')
+  // $($tweetButt).css( 'margin', 'auto')
+  $($tweetButt).css( 'width', '500px')
   $($tweetButt).css( 'padding', '25px 25px 25px 25px')
 
   $("#tb-div").css( 'display', 'flex')
@@ -145,11 +310,9 @@ users.forEach(user => console.log(user));
   $($meTweet).css( 'display', 'flex')
   $($meTweet).css( 'align-items', 'center')
   $($meTweet).css( 'justify-content', 'center')
-  $($meTweet).css( 'height', '200px')
-
-  let $tweeter = $('#tweeter')
+  $($meTweet).css( 'height', '100px')
   
-  console.log("TWEETER FORM:", $tweeter)
+  // console.log("TWEETER FORM:", $tweeter)
 
   
 
@@ -176,32 +339,31 @@ $("#top-butt-spacer").css('margin-top', '15%')
   $('#deliver').css
   $('#deliver').css
 
-///////////////////////
-//DELIVER TWEET BUTTON
-
-  $deliverButt = $("");
-  $meTweet.append($deliverButt)
-  console.log("DELIVER BUTTON:", $deliverButt);
 
 
-  $('#deliver').on('click',function(event){
-    event.preventDefault();
-    makeTweets()
 
-    const $inputString = $('#speak').val();
 
-    $('#tweet-div').append("<div>@YOU:  " + $inputString + "</div>").append(" - - - - - ").append(moment().calendar()).append(" - - - ", moment().format());;
 
-    $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
-  })
+
+
+
+
+
+
+
+
 
 //////////////////////////
+
+
 
 
 
   $(document).ready(function(){
     $deliverButt.click(function(){
         $("#tweeter").submit(); // Submit the form
+
+
     });
   });
 
@@ -209,6 +371,8 @@ $("#top-butt-spacer").css('margin-top', '15%')
 makeTweets();
 
 
+
+
+
 });
 
-//create a div that contains all the tweets
