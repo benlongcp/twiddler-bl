@@ -34,7 +34,7 @@ $($tweetDiv).css( 'width', '500px')
 
 ///////////////////////////////
 
-//TITLE
+//TITLE STYLE
 let $title = $("<div><h1 class='site-title' style='display:none'>TWIDDLER<img id='dump' src='https://www.snipershide.com/shooting/attachments/giphy-gif.7617343/' height='25'/></h1><h3 class='site-title' style='display:none'>oy vey</h3><div>")
 
 
@@ -62,38 +62,21 @@ $("h3").css('left', '48%')
 //makes the tweets appear
 
 
-
   function makeTweets(){
 
     const $tweets = streams.home.map((tweet) => {
       const $tweet = $('<div class="single-tweet"></div>');
 
-      // console.log("TU", tweet.user)
-      let $tweetUser = $("<div class='username'>" +"<h2 class='"+ tweet.user +"'> @"+ tweet.user + ":</h2>" + "</div>")
-
-      // console.log("$TU", $tweetUser)
+      let $tweetUser = $("<div class='username'>" +"<h2> @"+ tweet.user + ":</h2>" + "</div>")
 
       $tweet.append($tweetUser)
       $tweet.append("<div class='tweet-mess'>" + tweet.message +"</div>");
 
-      // console.log("$tweet", $tweet.text().split(": "))
-
-      // let splitTweet = $tweet.text().split(": ")
-
-      // let atUserName = splitTweet[0]
-
-      // console.log(atUserName)
-
-
       return $tweet.append("<div id='time-spacer'></div><div>  - - -  ", moment().calendar()).append("  . . . . . . . .  ", moment().format()).append("</div>").append('<div id="spacer"></div>');
-
-
-
 
     });
 
-    $tweetDiv.append($tweets).append("<div> </div>")
-
+    $tweetDiv.append($tweets)
     $singleTweet = $('.single-tweet');
 
 
@@ -104,64 +87,83 @@ $("h3").css('left', '48%')
 
 $deliverButt = $("");
 $meTweet.append($deliverButt)
-// console.log("DELIVER BUTTON:", $deliverButt);
 
+//click the button:
 
-$('#deliver').on('click',function(event){
-  event.preventDefault();
-  makeTweets()
+function makeOwnTweets(){
 
-  const $inputString = $('#speak').val();
-
-  $('#tweet-div').append("<div class='single-tweet'><h2 class='username'>@YOU:  </h2>" + $inputString + "</div>")
-
-  .append(" - - - - - ")
-
-  .append(moment().calendar())
-
-  .append(" - - - ", moment().format());
-
-  $('.username').css('color', 'red');
-
-  $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
-
+  $('#deliver').on('click',function(event){
+    event.preventDefault();
+    makeTweets()
   
-})
+    
+
+    const $inputString = $('#speak').val();
+  
+    const $userTweeter = $("<div class='youser-name'>" +"<h2> @YOU:</h2></div>")
+  
+    const $userTweet = $("<div class='your-string'>"+ $inputString + " " + "</div>")
+  
+    const $tweetTime = $("<div class='tweet-time'>" + (moment().calendar()) + " . . . . . . . . " + moment().format() + "</div>")
+  
+  
+    const $userFullTweet = $('#tweet-div').append($userTweeter)
+    .append($userTweet)
+    .append($tweetTime)
+  
+    // .append(" - - - - - ")
+    // .append(moment().calendar())
+    // .append(" - - - ", moment().format());
+  
+    $('.youser-name').css('color', 'red');
+  
+    $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
+  
+    /////////////////////////////////
+  
+  return $userFullTweet;
+    
+    
+    
+    /////////////////////////////////
+  
+  })
+}
+
+
+makeOwnTweets();
+
+
+/////////////////////////////////////
+
+
+
 
 //////////////////////
+//Make usernames red
+let $userName = $('.username');
+$('.username').css('color', 'red');
+
+// console.log($userName);
 
 //////////////////////////////////////////////////////////////////////////
 
 
   //GET OTHER PEOPLES' INFO
 
+  const $youserName = $('.youser-name');
+  console.log("YOUSERNAME:", $youserName);
+  let currentUser;
 
+///////////////////////////
 
-  $userName = $('.username');
-  $('.username').css('color', 'red');
+//your OWN profile ..............................
 
-  console.log("USERNAME:", $userName)
+  $($("#tweet-div")).on('click', '.youser-name' ,function(){
+    console.log("you clicked")
 
-///////////////////////
-
-
-
-
-
-
-
-
-  let currentUser
-  //CLICK ON USERNAME
-  $($userName).on('click', function(){
-    console.log(this, "click")
-
-  currentUser = this;
-
-  console.log("CURRENT", currentUser)
-
-
-    
+    currentUser = this;
+   
     $("#title-spacer").append('<div id="user-profile">')
     $('#user-profile').prepend('<button id="close-butt">X</button>')
     $('#tweet-div').hide()
@@ -177,7 +179,92 @@ $('#deliver').on('click',function(event){
     true
 );
 
-//CLOSE BUTTON STYLE
+// X CLOSE BUTTON STYLE
+$("#close-butt").css( 'background-color', '#555555')
+//  $("#close-butt").css( 'padding', '10px 10px')
+$("#close-butt").css( 'font-size', '12px')
+$("#close-butt").css( 'color', 'white')
+$("#close-butt").css( 'border-radius', '4px')
+$("#close-butt").css( 'font-family', 'cursive')
+$("#close-butt").css( 'position', 'fixed')
+$("#close-butt").css( 'top', '100px')
+$("#close-butt").css( 'right', '67%')
+$("#close-butt").css( 'transform', 'translate(-50%, -50%')
+ $("#close-butt").css( 'margin', 'auto')
+//  $("#close-butt").css( 'width', '5%')
+//  $("#close-butt").css( 'padding', '8px 8px 8px 8px')
+
+
+//closes the profile window
+$('#close-butt').on('click', function(){
+  $("#user-profile").remove();
+  $("#tweet-div").show();
+  $("#tweet-butt").prop(
+    "disabled",
+    false
+    );
+    $("#deliver").prop(
+      "disabled",
+      false
+  );
+})
+
+///////////////////////////////////////
+//USER PROFILE STYLING
+// console.log("!!! User Profile !!!", $('#user-profile'))
+$('#user-profile').css( 'background-color', '#F5F5F5')
+$('#user-profile').css( 'border', '1px solid #DDDDDD')
+$('#user-profile').css( 'border-radius', '4px 4px 4px 4px')
+$('#user-profile').css( 'font-size', '12px')
+$('#user-profile').css( 'font-weight', 'bold')
+//  $('#user-profile').css( 'left', '-1px')
+$('#user-profile').css( 'padding', '10px 7px 5px')
+$('#user-profile').css( 'display', 'block')
+$('#user-profile').css( 'height', '200px')
+$('#user-profile').css( 'overflow', 'scroll');
+$('#user-profile').css( 'padding', '25px 25px 25px 25px');
+$('#user-profile').css( 'margin', 'auto')
+$('#user-profile').css( 'width', '500px')
+
+
+////////////////////////////////////////////////////////
+//USER TWEET HISTORY
+
+//loop through all the single tweets
+
+   
+    $("#user-profile")
+    .append($(".youser-name"), $(".your-string"), $(".tweet-time"))
+
+
+
+
+
+  })
+///////////,,,,,,,,,,,,,,,
+  
+  //CLICK ON OTHER USERNAME
+  $($userName).on('click', function(){
+    console.log(this, "click")
+
+  currentUser = this;
+   
+    $("#title-spacer").append('<div id="user-profile">')
+    $('#user-profile').prepend('<button id="close-butt">X</button>')
+    $('#tweet-div').hide()
+
+    $("#tweet-butt").prop(
+      "disabled",
+      true
+  );
+
+  $("#deliver").prop(
+    "disabled",
+
+    true
+);
+
+  // X CLOSE BUTTON STYLE
     $("#close-butt").css( 'background-color', '#555555')
     //  $("#close-butt").css( 'padding', '10px 10px')
     $("#close-butt").css( 'font-size', '12px')
@@ -195,23 +282,19 @@ $('#deliver').on('click',function(event){
 
   //closes the profile window
     $('#close-butt').on('click', function(){
-
       $("#user-profile").remove();
-
       $("#tweet-div").show();
-
       $("#tweet-butt").prop(
         "disabled",
         false
         );
-
         $("#deliver").prop(
           "disabled",
           false
       );
-
     })
 
+///////////////////////////////////////
     //USER PROFILE STYLING
     // console.log("!!! User Profile !!!", $('#user-profile'))
     $('#user-profile').css( 'background-color', '#F5F5F5')
@@ -232,22 +315,11 @@ $('#deliver').on('click',function(event){
     ////////////////////////////////////////////////////////
     //USER TWEET HISTORY
 
-    console.log("TWEET HERE?", $(".single-tweet")[0].innerText);
-
-
-
-
-
-    // console.log("LENGTH !!!!!!!!!!!!!!!", $('.single-tweet').length)
-
+    //loop through all the single tweets
     for (let i = 0; i < $('.single-tweet').length; i++){
 
-      console.log("CURRENT", $('.username')[i].innerText.slice(2, -1) , currentUser.innerText.slice(2, -1))
-
-      // streams.home[i].user
-
       if (currentUser.innerText.slice(2, -1) === $('.username')[i].innerText.slice(2, -1)){
-        console.log("SINGLE", $singleTweet)
+       
         $("#user-profile")
         .append("<p>")
         .append($(".single-tweet")[i].innerText)
@@ -260,7 +332,27 @@ $('#deliver').on('click',function(event){
 
     $("#time-spacer").css("white-space", "pre-line")
   })
+
+//   $(".username").on('click', function(){
+//     console.log($(".username"), "click")
+
+//     $("#title-spacer").append('<div id="user-profile">')
+//     $('#user-profile').prepend('<button id="close-butt">X</button>')
+//     $('#tweet-div').hide()
+
+//     $("#tweet-butt").prop(
+//       "disabled",
+//       true
+//   );
+
+//   $("#deliver").prop(
+//     "disabled",
+
+//     true
+// );
+//   })
 };
+
 
 
 
@@ -268,8 +360,6 @@ $('#deliver').on('click',function(event){
 //add more tweets
 
   $body.append('<div id="tb-div"><div id="top-butt-spacer"></div><button id="tweet-butt">more tweets!</button></div>')
-
-
 
   let $tweetButt = ('#tweet-butt')
   
@@ -296,26 +386,19 @@ $('#deliver').on('click',function(event){
 
 //////////////////////////////
 
-//tweet our own input
-
+//Tweet Input Styling
 
   $body.append('<div id="me-tweet"></div>')
 
   $meTweet = $('#me-tweet');
 
- 
-
-  $meTweet.append("<form id='tweeter'><input type='text' id='speak' value='type-speak'/ ><div class='butt-spacer'></div><button type='button' id='deliver'>deliver</button></form>")
+  $meTweet.append("<form id='tweeter'><input type='text' id='speak' value='dispense wisdom'/ ><div class='butt-spacer'></div><button type='button' id='deliver'>deliver</button></form>")
 
   $($meTweet).css( 'display', 'flex')
   $($meTweet).css( 'align-items', 'center')
   $($meTweet).css( 'justify-content', 'center')
   $($meTweet).css( 'height', '100px')
   
-  // console.log("TWEETER FORM:", $tweeter)
-
-  
-
   $('#tweeter').css( 'padding', '12px 20px');
   $('#tweeter').css( 'margin', '8px 0');
   $('#tweeter').css( 'width', '33%');
@@ -334,34 +417,17 @@ $('#deliver').on('click',function(event){
 $("#top-butt-spacer").css('margin-top', '15%')
 
   $('.butt-spacer').css('height', '4px')
-  
 
   $('#deliver').css
   $('#deliver').css
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //////////////////////////
 
-
-
-
-
   $(document).ready(function(){
     $deliverButt.click(function(){
-        $("#tweeter").submit(); // Submit the form
+        $("#tweeter").submit();
+         // Submit the form
 
 
     });
@@ -369,9 +435,6 @@ $("#top-butt-spacer").css('margin-top', '15%')
 
 
 makeTweets();
-
-
-
 
 
 });
