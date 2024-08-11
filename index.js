@@ -280,7 +280,7 @@ $meTweet.append($deliverButt)
 
     $('#deliver').on('click',function(event){
       event.preventDefault();
-      makeTweets()
+      // makeTweets()
 
       const $inputString = $('#speak').val();
       const $userTweeter = $("<div class='youser-name'>" +"<h2> @YOU:</h2></div>")
@@ -294,15 +294,10 @@ $meTweet.append($deliverButt)
       // .append(" - - - - - ")
       // .append(moment().calendar())
       // .append(" - - - ", moment().format());
-    
-      $('.youser-name').css('color', 'red');
-    
-      $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
-    
-    
-////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
+      $('.youser-name').css('color', 'red');
+
+      $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
     });
   };
 makeOwnTweets();
@@ -396,8 +391,6 @@ $('#user-profile').css( 'width', '500px')
 
 
 let $userName = $(".youser-name")
-
-console.log("USERFULLTWEET", $userName)
 
 let $userFullTweet = $userName.append( $(".your-string"), $(".tweet-time"))
 
