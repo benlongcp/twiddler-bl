@@ -389,13 +389,27 @@ $('#user-profile').css( 'margin', 'auto')
 $('#user-profile').css( 'width', '500px')
 
 
+////////////////////////////////////////////
+//ATTACHING TO USER PROFILE
 
-let $userName = $(".youser-name")
+let $userName = $(".youser-name").clone()
 
-let $userFullTweet = $userName.append( $(".your-string"), $(".tweet-time"))
+let $tweetClone = $(".your-string").clone()
+console.log(".YOUsername", $(".youser-name"))
 
-$("#user-profile").append($($userFullTweet))
+let $timeClone = $(".tweet-time").clone()
 
+$("#user-profile").append($($userName))
+
+console.log("#USER PROFILE", $("#user-profile"))
+$("#user-profile").append($($tweetClone))
+$("#user-profile").prepend($($userName))
+
+for (let i = 0; i < $userName.length; i++){
+  $($userName[i]).append($($tweetClone[i])).append($($timeClone)[i])
+}
+$($tweetClone).css("color", "black")
+$($timeClone).css("color", "black")
 
 
  })
