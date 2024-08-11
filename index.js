@@ -109,7 +109,7 @@ $($meTweet).css( 'height', '100px')
 
 $('#tweeter').css( 'padding', '12px 20px');
 $('#tweeter').css( 'margin', '8px 0');
-$('#tweeter').css( 'width', '33%');
+$('#tweeter').css( 'width', '500px');
 
 $('#speak').css('width', '97%')
 
@@ -240,6 +240,7 @@ $("#deliver").prop(
   $('#user-profile').css( 'padding', '25px 25px 25px 25px');
   $('#user-profile').css( 'margin', 'auto')
   $('#user-profile').css( 'width', '500px')
+  
 
 
   ////////////////////////////////////////////////////////
@@ -250,17 +251,33 @@ $("#deliver").prop(
 
     if (currentUser.innerText.slice(2, -1) === $('.username')[i].innerText.slice(2, -1)){
      
+
+      let $fullTweet = $(".single-tweet")[i].innerText
+
+      let tweetArr = $fullTweet.split(":")
+      let choppedUserName = tweetArr.shift()
+      $fullTweet = tweetArr.join(":")
+      // console.log($fullTweet)
       $("#user-profile")
+      .append($("<div id='chop-user'><h2>" + choppedUserName + "</h2></div>")
+      .css('color', 'red'))
       .append("<p>")
-      .append($(".single-tweet")[i].innerText)
+      .append($fullTweet)
       .append("</p>")
       .append("<div> - - - - - - </div>")
+
+      
+
+      console.log($('.chop-user'));;
+
     }
+
+    
 
   
   }
-
-  $("#time-spacer").css("white-space", "pre-line")
+ 
+  // $("#time-spacer").css("white-space", "pre-line")
 })
 
   }
@@ -295,7 +312,7 @@ $meTweet.append($deliverButt)
       // .append(moment().calendar())
       // .append(" - - - ", moment().format());
 
-      $('.youser-name').css('color', 'red');
+      $('.youser-name').css('color', 'blue');
 
       $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
     });
@@ -423,7 +440,7 @@ $($timeClone).css("color", "black")
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+$('.chop-user').css("color", "red")
 
 ///////////////////////////////////////////////
 
