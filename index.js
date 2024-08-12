@@ -157,7 +157,7 @@ $(document).ready(function(){
       $tweet.append($tweetUser)
       $tweet.append("<div class='tweet-mess'>" + tweet.message +"</div>");
 
-      return $tweet.append("<div id='time-spacer'></div><div>  - - -  ", moment().calendar()).append("  . . . . . . . .  ", moment().format()).append("</div>").append('<div id="spacer"></div>');
+      return $tweet.append("<div id='time-spacer'></div><div>  - - -  ", moment().startOf('hour').fromNow()).append("  . . . . . . . .  ", moment().calendar()).append("</div>").append('<div id="spacer"></div>');
 
     });
 
@@ -302,7 +302,7 @@ $meTweet.append($deliverButt)
       const $inputString = $('#speak').val();
       const $userTweeter = $("<div class='youser-name'>" +"<h2> @YOU:</h2></div>")
       const $userTweet = $("<div class='your-string'>"+ $inputString + " " + "</div>")
-      const $tweetTime = $("<div class='tweet-time'>" + (moment().calendar()) + " . . . . . . . . " + moment().format() + "</div>")
+      const $tweetTime = $("<div class='tweet-time'>" + (moment().startOf('hour').fromNow()) + " . . . . . . . . " + moment().calendar() + "</div>")
     
       $('#tweet-div').append($userTweeter)
       .append($userTweet)
