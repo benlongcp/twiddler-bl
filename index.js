@@ -156,12 +156,22 @@ $(document).ready(function(){
 
       $tweet.append($tweetUser)
       $tweet.append("<div class='tweet-mess'>" + tweet.message +"</div>");
+      const $tweetTime = $("<div class='tweet-time'>" +"<div class='time-since'> - - - just now . . . . . . . . " + moment().calendar() + "</div>")
 
-      return $tweet.append("<div id='time-spacer'></div><div>  - - -  ", moment().startOf('hour').fromNow()).append("  . . . . . . . .  ", moment().calendar()).append("</div>").append('<div id="spacer"></div>');
+      const $thisMoment = $("<div class='this-moment'>"+ moment().format() + "</div>").hide()
+
+    
+    
+
+      $tweet.append($tweetTime).append($thisMoment)
+      
+      console.log($(".current-time"))
+      return $tweet
 
     });
 
     $tweetDiv.append($tweets)
+    $($tweetDiv)
     $singleTweet = $('.single-tweet');
     $('.username').css('color', 'red');
 
@@ -253,22 +263,39 @@ $("#deliver").prop(
      
 
       let $fullTweet = $(".single-tweet")[i].innerText
+      
+      console.log("FULL TWEET", $fullTweet)
 
       let tweetArr = $fullTweet.split(":")
+
+      console.log("TWEETARR:", tweetArr)
+
+
       let choppedUserName = tweetArr.shift()
-      $fullTweet = tweetArr.join(":")
-      // console.log($fullTweet)
+  
+      console.log("TWEETARR AGAIN", tweetArr[1])
+
+  
+      let choppedTime = tweetArr[1].split("2024")
+      console.log(choppedTime)
+
+      $fullTweet = tweetArr[0] + ":" + choppedTime[0]
+      
+
+
+
+      console.log("FULL TWEET:", $fullTweet)
       $("#user-profile")
       .append($("<div id='chop-user'><h2>" + choppedUserName + "</h2></div>")
       .css('color', 'red'))
       .append("<p>")
-      .append($fullTweet)
+      .append(tweetArr[0] + ":" + choppedTime[0])
       .append("</p>")
       .append("<div> - - - - - - </div>")
 
       
 
-      console.log($('.chop-user'));;
+      // console.log($('.chop-user'));;
 
     }
 
@@ -285,6 +312,11 @@ makeTweets()
 
 ////////////////////////////////////////////////////////////
 
+
+
+
+
+
 ////////////////////////////////////////////////////////////
 //DELIVER TWEET BUTTON
 
@@ -300,13 +332,23 @@ $meTweet.append($deliverButt)
       // makeTweets()
 
       const $inputString = $('#speak').val();
+      
       const $userTweeter = $("<div class='youser-name'>" +"<h2> @YOU:</h2></div>")
+      
       const $userTweet = $("<div class='your-string'>"+ $inputString + " " + "</div>")
-      const $tweetTime = $("<div class='tweet-time'>" + (moment().startOf('hour').fromNow()) + " . . . . . . . . " + moment().calendar() + "</div>")
+      
+      const $tweetTime = $("<div class='tweet-time'>" +"<div class='time-since'>just now</div>" +" . . . . . . . . " + moment().calendar() + "</div>")
+
+      const $thisMoment = $("<div class='this-moment'>"+ moment().format() + "</div>").hide()
+      
+      // console.log("CURRENT TIME". $($currentTime))
+
+
     
       $('#tweet-div').append($userTweeter)
       .append($userTweet)
       .append($tweetTime)
+      .append($thisMoment)//.hide()
     
       // .append(" - - - - - ")
       // .append(moment().calendar())
@@ -315,9 +357,16 @@ $meTweet.append($deliverButt)
       $('.youser-name').css('color', 'blue');
 
       $($tweetDiv).animate({scrollTop: $($tweetDiv).prop('scrollHeight')}, 100);
+
+      
     });
+
+    
   };
+  
 makeOwnTweets();
+
+
 
 ////////////////////////////////////////////////////////////
 
@@ -439,12 +488,60 @@ $($timeClone).css("color", "black")
 //....................................................................................................................................................//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+let $timeSince = $('.time-since')
+
+let $thisMoment = $(".this-moment")
+
+
+// $(".current-time").hide()
+
+console.log(moment(), Date.parse($thisMoment[0].innerText))
+
+
+setInterval(function updateTimes (){
+
+  $timeSince = $('.time-since')
+  $thisMoment = $(".this-moment")
+
+  for (let i = 0; i < $timeSince.length; i++){
+    console.log($timeSince[i])
+    let newTime = moment().diff($thisMoment[i].innerText)
+    console.log(newTime)
+
+    let timeInMinutes = Math.floor(newTime/1000/60)
+
+    if (timeInMinutes < 1){
+      $timeSince[i].innerText = " - - - less than a minute ago . . . . . . . . " + moment().calendar()
+    } else if (timeInMinutes === 1) {
+      $timeSince[i].innerText = " - - - 1 minute ago . . . . . . . . " + moment().calendar()
+    } else if (timeInMinutes < 60){
+      $timeSince[i].innerText = " - - - " + Math.floor(newTime/1000/60) + " minutes ago. . . . . . . . " + moment().calendar()
+    } else if (timeInMinutes >= 60 && timeInMinutes < 120){
+      $timeSince[i].innerText = " - - - 1 hour ago. . . . . . . . " + moment().calendar()
+    } else {
+      $timeSince[i].innerText = " - - - " + Math.floor(newTime/1000/60/60) + " hours ago. . . . . . . . " + moment().calendar()
+    }
+
+    
+
+
+  }
+}, 10000)
+
+
+
+
+ 
 
 $('.chop-user').css("color", "red")
+//
+// console.log($('.tweet-time'))
 
 ///////////////////////////////////////////////
 
 ///////////////////////////////////////////////
+
+
+
 
 });
-
